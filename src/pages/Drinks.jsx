@@ -10,7 +10,7 @@ function Drinks() {
 
   React.useEffect(() => {
     if (drinksArray.length === 1) {
-      history.push(`/comidas/${drinksArray[0].idDrink}`);
+      history.push(`/bebidas/${drinksArray[0].idDrink}`);
     }
   }, [drinksArray, history]);
 
@@ -24,7 +24,7 @@ function Drinks() {
               src={ item.strDrinkThumb }
               alt={ item.strDrink }
               width="150px"
-              data-testid={ ` ${index}-card-img` }
+              data-testid={ `${index}-card-img` }
             />
             <h2 data-testid={ `${index}-card-name` }>{item.strDrink}</h2>
           </div>
