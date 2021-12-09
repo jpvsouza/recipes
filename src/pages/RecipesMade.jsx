@@ -1,9 +1,10 @@
 import React from 'react';
+import Header from '../components/Header';
 
 function RecipesMade() {
   return (
     <div>
-      <h1>Receitas-Feitas</h1>
+      <Header />
     </div>
   );
 }
