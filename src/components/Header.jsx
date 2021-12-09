@@ -85,9 +85,7 @@ function Header() {
         )}
       </div>
       {mustRenderSearchBar && (
-        <div>
-          <SearchBar />
-        </div>
+        <SearchBar />
       )}
     </header>
   );
