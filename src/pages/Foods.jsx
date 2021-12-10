@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { fetchCategoriesMeals as fetchFoodCategories } from '../redux/actions/apiAC';
+import { fetchCategoriesMeals as fetchFoodCategories,
+  fetchMeals as fetchMealsThunk } from '../redux/actions/apiAC';
 import Header from '../components/Header';
 import FoodCategoriesFilter from '../components/FoodCategoriesFilter';
 import FoodCard from '../components/FoodCard';
@@ -21,6 +22,7 @@ function Foods() {
 
   React.useEffect(() => {
     dispatch(fetchFoodCategories(MEALS_CAT_END_POINT));
+    dispatch(fetchMealsThunk('https://www.themealdb.com/api/json/v1/1/filter.php?i=water'));
   }, [dispatch]);
 
   return (
