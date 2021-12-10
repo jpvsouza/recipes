@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import fetchDrinks, { fetchMeals as fetchMealsThunk } from '../redux/actions/ApiAC';
+import fetchDrinks, { fetchMeals as fetchMealsThunk } from '../redux/actions/apiAC';
 
 function SearchBar() {
   const [searchedItem, setSearchedItem] = React.useState('');
