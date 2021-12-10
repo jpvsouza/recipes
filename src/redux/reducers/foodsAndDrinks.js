@@ -1,12 +1,16 @@
 import { START_REQUEST_API,
   MEALS_API_SUCCESS,
   DRINKS_API_SUCCESS,
-  API_ERROR } from '../actions/ApiAC';
+  MEALS_CATEGORIES_API_SUCCESS,
+  DRINKS_CATEGORIES_API_SUCCESS,
+  API_ERROR } from '../actions/apiAC';
 
 const INITIAL_STATE = {
   loading: false,
   meals: [],
+  mealsCategories: [],
   drinks: [],
+  drinksCategories: [],
   error: null,
 };
 
@@ -20,7 +24,6 @@ function foodsAndDrinks(state = INITIAL_STATE, action) {
       ...state,
       loading: false,
       meals: action.mealsArray,
-      drinks: [],
       error: null,
     };
 
@@ -29,7 +32,22 @@ function foodsAndDrinks(state = INITIAL_STATE, action) {
       ...state,
       loading: false,
       drinks: action.drinksArray,
-      meals: [],
+      error: null,
+    };
+
+  case MEALS_CATEGORIES_API_SUCCESS:
+    return {
+      ...state,
+      loading: false,
+      mealsCategories: action.mealsCategoriesArray,
+      error: null,
+    };
+
+  case DRINKS_CATEGORIES_API_SUCCESS:
+    return {
+      ...state,
+      loading: false,
+      drinksCategories: action.drinksCategoriesArray,
       error: null,
     };
 
