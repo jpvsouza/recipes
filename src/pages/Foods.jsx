@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function Foods() {
   const mealsArray = useSelector((state) => state.foodsAndDrinks.meals);
@@ -29,6 +30,7 @@ function Foods() {
             <h2 data-testid={ `${index}-card-name` }>{item.strMeal}</h2>
           </div>
         ))}
+      <Footer />
     </div>
   );
 }
