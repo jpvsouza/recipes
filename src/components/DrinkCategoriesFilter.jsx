@@ -7,16 +7,16 @@ function DrinkCategoriesFilter() {
 
   return (
     <div className="foodCategoriesFilterContainer">
-      <button
+      {/* <button
         type="button"
       >
         All
-      </button>
+      </button> */}
       {drinksCategArray.filter((_drinkCat, i) => (i <= four))
         .map((category) => (
           <button
             key={ category.strCategory }
-            data-testid={ `${category}-category-filter` }
+            data-testid={ `${category.strCategory}-category-filter` }
             type="button"
           >
             {category.strCategory}

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { fetchCategoriesDrinks as fetchDrinksCategories } from '../redux/actions/apiAC';
+import fetchDrinks,
+{ fetchCategoriesDrinks as fetchDrinksCategories } from '../redux/actions/apiAC';
 import Header from '../components/Header';
 import DrinkCard from '../components/DrinkCard';
 import DrinkCategoriesFilter from '../components/DrinkCategoriesFilter';
@@ -21,6 +22,7 @@ function Drinks() {
 
   React.useEffect(() => {
     dispatch(fetchDrinksCategories(DRINKS_CAT_END_POINT));
+    dispatch(fetchDrinks('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=water'));
   }, [dispatch]);
 
   return (
