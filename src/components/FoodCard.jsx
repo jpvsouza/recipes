@@ -1,9 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 function FoodCard() {
   const mealsArray = useSelector((state) => state.foodsAndDrinks.meals);
   const eleven = 11;
+  const history = useHistory();
 
   return (
     <div className="foodCardsContainer">
@@ -13,6 +15,10 @@ function FoodCard() {
             key={ item.idMeal }
             data-testid={ `${index}-recipe-card` }
             className="eachFoodCard"
+            onClick={ () => history.push(`/comidas/${item.idMeal}`) }
+            onKeyDown={ () => history.push(`/comidas/${item.idMeal}`) }
+            role="button"
+            tabIndex={ 0 }
           >
             <img
               src={ item.strMealThumb }

@@ -13,22 +13,25 @@ function Foods() {
   const mealsArray = useSelector((state) => state.foodsAndDrinks.meals);
   const history = useHistory();
   const dispatch = useDispatch();
+  const [isCategoryPressed, setIsCategoryPressed] = React.useState(false);
 
   React.useEffect(() => {
-    if (mealsArray.length === 1) {
+    if (mealsArray.length === 1 && !isCategoryPressed) {
       history.push(`/comidas/${mealsArray[0].idMeal}`);
     }
   }, [mealsArray, history]);
 
   React.useEffect(() => {
     dispatch(fetchFoodCategories(MEALS_CAT_END_POINT));
-    dispatch(fetchMealsThunk('https://www.themealdb.com/api/json/v1/1/filter.php?i=water'));
+    dispatch(fetchMealsThunk('https://www.themealdb.com/api/json/v1/1/search.php?s='));
   }, [dispatch]);
 
   return (
     <div>
       <Header />
-      <FoodCategoriesFilter />
+      <FoodCategoriesFilter
+        setIsCategoryPressed={ setIsCategoryPressed }
+      />
       <FoodCard />
       <Footer />
     </div>

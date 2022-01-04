@@ -13,22 +13,25 @@ function Drinks() {
   const drinksArray = useSelector((state) => state.foodsAndDrinks.drinks);
   const history = useHistory();
   const dispatch = useDispatch();
+  const [isCategoryPressed, setIsCategoryPressed] = React.useState(false);
 
   React.useEffect(() => {
-    if (drinksArray.length === 1) {
+    if (drinksArray.length === 1 && !isCategoryPressed) {
       history.push(`/bebidas/${drinksArray[0].idDrink}`);
     }
   }, [drinksArray, history]);
 
   React.useEffect(() => {
     dispatch(fetchDrinksCategories(DRINKS_CAT_END_POINT));
-    dispatch(fetchDrinks('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=water'));
+    dispatch(fetchDrinks('https://www.thecocktaildb.com/api/json/v1/1/search.php?s='));
   }, [dispatch]);
 
   return (
     <div>
       <Header />
-      <DrinkCategoriesFilter />
+      <DrinkCategoriesFilter
+        setIsCategoryPressed={ setIsCategoryPressed }
+      />
       <DrinkCard />
       <Footer />
     </div>
