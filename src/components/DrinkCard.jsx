@@ -1,9 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 function DrinkCard() {
   const drinksArray = useSelector((state) => state.foodsAndDrinks.drinks);
   const eleven = 11;
+  const history = useHistory();
 
   return (
     <div className="drinkCardsContainer">
@@ -13,6 +15,10 @@ function DrinkCard() {
             key={ item.idDrink }
             data-testid={ `${index}-recipe-card` }
             className="eachDrinkCard"
+            onClick={ () => history.push(`/bebidas/${item.idDrink}`) }
+            onKeyDown={ () => history.push(`/bebidas/${item.idDrink}`) }
+            role="button"
+            tabIndex={ 0 }
           >
             <img
               src={ item.strDrinkThumb }
