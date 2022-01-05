@@ -1,30 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function FDDetailsRecommended({ recipeInfo, currentPathName }) {
-  const linkCompleto = recipeInfo.strYoutube;
-  console.log(linkCompleto);
-  // const linkCurto = linkCompleto.split('=');
-  // console.log(linkCurto[1]);
+function FDDetailsVideo({ recipeInfo }) {
   return (
     <div>
-      {/* {currentPathName.includes('comidas')
+      {recipeInfo !== undefined
         && (
           <iframe
-            width="853"
-            height="480"
-            src={ `https://www.youtube.com/embed/${linkCurto[1]}` } // REF: https://dev.to/bravemaster619/simplest-way-to-embed-a-youtube-video-in-your-react-app-3bk2
+            data-testid="video"
+            src={ recipeInfo.strYoutube !== undefined
+              ? `https://www.youtube.com/embed/${recipeInfo.strYoutube.split('=')[1]}`
+              : null } // REF: https://dev.to/bravemaster619/simplest-way-to-embed-a-youtube-video-in-your-react-app-3bk2
+            width="560"
+            height="315"
             frameBorder="0"
+            allow="accelerometer;
+              autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             title="Embedded Youtube Video"
-          />)} */}
+          />)}
     </div>
   );
 }
 
-FDDetailsRecommended.propTypes = {
-  currentPathName: PropTypes.string.isRequired,
+FDDetailsVideo.propTypes = {
   recipeInfo: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-export default FDDetailsRecommended;
+export default FDDetailsVideo;

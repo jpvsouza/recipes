@@ -1,19 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function FDDetailsIngredients({ ingredientsArr }) {
+function FDDetailsIngredients({ ingredientsArr, measureArr }) {
   return (
     <div>
-      {/* {array.map((ingredient, index) => (
-        <h3 key={ index }>{ingredient.strIngredient}</h3>
-      ))} */}
-      <h3>Ingredientes</h3>
+      <h3>Ingredients</h3>
+      <ul>
+        { ingredientsArr
+          .map((ite, index) => (
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+              key={ ite }
+            >
+              {`${ite} - ${measureArr[index]}`}
+            </li>))}
+      </ul>
     </div>
   );
 }
 
 FDDetailsIngredients.propTypes = {
   ingredientsArr: PropTypes.arrayOf(PropTypes.string).isRequired,
+  measureArr: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default FDDetailsIngredients;

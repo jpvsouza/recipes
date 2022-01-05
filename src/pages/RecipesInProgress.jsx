@@ -11,6 +11,8 @@ export default function RecipesInProgress() {
   const END_POINT_FOOD = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idReceita}`;
   const END_POINT_DRINK = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idReceita}`;
   const [recipeProgress, setRecipeProgress] = useState({});
+  const [ingredientsArr, setIngredientsArr] = useState([]);
+  const [measureArr, setMeasureArr] = useState([]);
 
   useEffect(() => {
     if (currentPathName.includes('comidas')) {
@@ -25,6 +27,22 @@ export default function RecipesInProgress() {
     }
   }, []);
 
+  const filter = () => {
+    const keysIngre = Object.keys(recipeProgress)
+      .filter((item) => item.includes('strIngredient'));
+    const keysMeasu = Object.keys(recipeProgress)
+      .filter((item) => item.includes('strMeasure'));
+    const ingredients = keysIngre.map((item) => recipeProgress[item])
+      .filter((remove) => remove !== '');
+    const measure = keysMeasu.map((item) => recipeProgress[item]);
+    setIngredientsArr(ingredients);
+    setMeasureArr(measure);
+  };
+
+  useEffect(() => {
+    filter();
+  }, [recipeProgress]);
+
   return (
     <section>
       <ProgressHeader
@@ -32,8 +50,8 @@ export default function RecipesInProgress() {
         currentPathName={ currentPathName }
       />
       <ProgressIngredients
-        recipeProgress={ recipeProgress }
-        currentPathName={ currentPathName }
+        recipeProgress={ ingredientsArr }
+        currentPathName={ measureArr }
       />
       <ProgressInstructions
         recipeProgress={ recipeProgress }
