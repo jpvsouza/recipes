@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function ProgressIngredients({ ingredientsArr, measureArr }) {
+export default function ProgressIngredients({ ingredientsArr }) {
   return (
     <div>
       <h3>Ingredientes</h3>
@@ -18,5 +18,5 @@ export default function ProgressIngredients({ ingredientsArr, measureArr }) {
 
 ProgressIngredients.propTypes = {
   ingredientsArr: PropTypes.arrayOf(PropTypes.string).isRequired,
-  measureArr: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // measureArr: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

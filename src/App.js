@@ -44,7 +44,16 @@ function App() {
         />
         <Route exact path="/perfil" component={ Profile } />
         <Route exact path="/receitas-feitas" component={ RecipesMade } />
-        <Route exact path="/receitas-em-progresso" component={ RecipesInProgress } />
+        <Route
+          exact
+          path="/comidas/:idReceita/in-progress"
+          component={ RecipesInProgress }
+        />
+        <Route
+          exact
+          path="/bebidas/:idReceita/in-progress"
+          component={ RecipesInProgress }
+        />
         <Route exact path="/receitas-favoritas" component={ FavoriteRecipes } />
       </Switch>
     </div>
