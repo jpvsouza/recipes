@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import RecipesMade from './pages/RecipesMade';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import FoodOrDrinksDetails from './pages/FoodOrDrinksDetails';
+import RecipesInProgress from './pages/RecipesInProgress';
 
 function App() {
   return (
@@ -43,7 +44,7 @@ function App() {
         />
         <Route exact path="/perfil" component={ Profile } />
         <Route exact path="/receitas-feitas" component={ RecipesMade } />
-        <Route exact path="/receitas-feitas" component={ RecipesMade } />
+        <Route exact path="/receitas-em-progresso" component={ RecipesInProgress } />
         <Route exact path="/receitas-favoritas" component={ FavoriteRecipes } />
       </Switch>
     </div>

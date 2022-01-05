@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ReactComponent as WhiteHeartIcon } from '../../images/whiteHeartIcon.svg';
+import WhiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import ShareIcon from '../../images/shareIcon.svg';
 
+// falta logica de adicionar os favoritos
+// verificar icones
 export default function ProgressHeader({ recipeProgress, currentPathName }) {
   return (
     <header>
@@ -16,7 +19,7 @@ export default function ProgressHeader({ recipeProgress, currentPathName }) {
           : (
             <img
               data-testid="recipe-photo"
-              src={ recipeInfo.strDrinkThumb }
+              src={ recipeProgress.strDrinkThumb }
               alt="Drink Recipe"
             />)}
         {currentPathName.includes('comidas')
@@ -26,14 +29,14 @@ export default function ProgressHeader({ recipeProgress, currentPathName }) {
           ? <h3 data-testid="recipe-category">{ recipeProgress.strCategory }</h3>
           : <h3 data-testid="recipe-category">{ recipeProgress.strCategory }</h3>}
       </div>
-      <div>
-        <WhiteHeartIcon />
-      </div>
-    </header>
 
-  //   <button data-testid="share-btn" type="button">Compartilhar</button>
-  //   <button data-testid="favorite-btn" type="button">Favoritar</button>
-  // </div>
+      {/* ======Icones====== */}
+      <div>
+        <img src={ WhiteHeartIcon } alt="Favoritar" />
+        <img src={ ShareIcon } alt="Compartilhar" />
+      </div>
+
+    </header>
   );
 }
 
