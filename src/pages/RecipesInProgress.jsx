@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import ProgressHeader from '../components/recipesInProgress/ProgressHeader';
-import ProgressIngredients from '../components/recipesInProgress/ProgressIngredients';
+// import ProgressIngredients from '../components/recipesInProgress/ProgressIngredients';
 import ProgressInstructions from '../components/recipesInProgress/ProgressInstructions';
 
 export default function RecipesInProgress() {
@@ -41,6 +41,7 @@ export default function RecipesInProgress() {
 
   useEffect(() => {
     filter();
+    console.log(ingredientsArr, measureArr);
   }, [recipeProgress]);
 
   return (
@@ -49,10 +50,10 @@ export default function RecipesInProgress() {
         recipeProgress={ recipeProgress }
         currentPathName={ currentPathName }
       />
-      <ProgressIngredients
+      {/* <ProgressIngredients
         recipeProgress={ ingredientsArr }
         currentPathName={ measureArr }
-      />
+      /> */}
       <ProgressInstructions
         recipeProgress={ recipeProgress }
         currentPathName={ currentPathName }
