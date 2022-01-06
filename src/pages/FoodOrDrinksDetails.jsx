@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { startRecipe } from '../redux/actions/userAC';
 import FDDetailsHeader
   from '../components/FoodOrDrinksDetailsComponents/FDDetailsHeader';
 import FDDetailsIngredients
@@ -17,8 +18,10 @@ function FoodOrDrinksDetails() {
   const { idReceita } = useParams();
   const location = useLocation();
   const history = useHistory();
+  const dispatch = useDispatch();
   const currentPathName = location.pathname;
   const favoriteRecipesArr = useSelector((state) => state.user.favoriteRecipes);
+  const inProgressRecipes = useSelector((state) => state.user.inProgressRecipes);
   const END_POINT_FOOD_FILTER_ID = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idReceita}`;
   const END_POINT_DRINK_FILTER_ID = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idReceita}`;
   const END_POINT_FOOD_RANDOM = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
@@ -27,6 +30,7 @@ function FoodOrDrinksDetails() {
   const [ingredientsArr, setIngredientsArr] = React.useState([]);
   const [measureArr, setMeasureArr] = React.useState([]);
   const [recommendedFD, setRecommendedFD] = React.useState([]);
+  const filterInProgress = inProgressRecipes.includes(Number(idReceita));
 
   const filter = () => {
     const keysIngre = Object.keys(recipeInfo)
@@ -40,6 +44,17 @@ function FoodOrDrinksDetails() {
 
     setIngredientsArr(ingredients);
     setMeasureArr(measure);
+  };
+
+  const buttonPush = () => {
+    if (currentPathName.includes('comidas')) {
+      dispatch(startRecipe(Number(idReceita)));
+      history.push(`/comidas/${idReceita}/in-progress`);
+    }
+    if (currentPathName.includes('bebidas')) {
+      dispatch(startRecipe(Number(idReceita)));
+      history.push(`/bebidas/${idReceita}/in-progress`);
+    }
   };
 
   React.useEffect(() => {
@@ -97,10 +112,20 @@ function FoodOrDrinksDetails() {
         recommendedFD={ recommendedFD }
         currentPathName={ currentPathName }
       />
-      {currentPathName.includes('comidas')
+      {!filterInProgress ? (
+        <button
+          onClick={ () => buttonPush() }
+          className="startRecipeBtn"
+          data-testid="start-recipe-btn"
+          type="button"
+        >
+          Iniciar Receita
+        </button>
+      ) : null}
+      {/* {currentPathName.includes('comidas')
         ? (
           <button
-            onClick={ () => history.push(`/comidas/${idReceita}/in-progress`) }
+            onClick={ () => buttonPush() }
             className="startRecipeBtn"
             data-testid="start-recipe-btn"
             type="button"
@@ -115,7 +140,7 @@ function FoodOrDrinksDetails() {
             type="button"
           >
             Iniciar Receita
-          </button>)}
+          </button>)} */}
     </div>
   );
 }
