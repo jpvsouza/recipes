@@ -5,16 +5,16 @@ export default function ProgressIngredients({ ingredientsArr, measureArr }) {
   return (
     <div>
       <h3>Ingredientes</h3>
-      <div>
-        { ingredientsArr
-          .map((ite, index) => (
+      { ingredientsArr
+        .map((ite, index) => (
+          <div key={ ite }>
+            <input type="checkbox" />
             <p
               data-testid={ `${index}-ingredient-name-and-measure` }
-              key={ ite }
             >
               {`${ite} - ${measureArr[index]}`}
-            </p>))}
-      </div>
+            </p>
+          </div>))}
     </div>
   );
 }
