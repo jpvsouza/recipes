@@ -1,6 +1,7 @@
 import { SET_LOGIN_INFO,
   ADD_FAVORITE_RECIPE,
   REMOVE_FAVORITE_RECIPE,
+  START_RECIPE,
 } from '../actions/userAC';
 
 const INITIAL_STATE = {
@@ -31,6 +32,11 @@ function user(state = INITIAL_STATE, action) {
       ...state,
       favoriteRecipes: [...state.favoriteRecipes
         .filter(({ id }) => (id !== action.recipeId))],
+    };
+  case START_RECIPE:
+    return {
+      ...state,
+      inProgressRecipes: [...state.inProgressRecipes, action.recipeId],
     };
 
   default:
