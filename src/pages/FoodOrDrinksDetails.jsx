@@ -1,5 +1,6 @@
 import React from 'react';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import FDDetailsHeader
   from '../components/FoodOrDrinksDetailsComponents/FDDetailsHeader';
 import FDDetailsIngredients
@@ -17,6 +18,7 @@ function FoodOrDrinksDetails() {
   const location = useLocation();
   const history = useHistory();
   const currentPathName = location.pathname;
+  const favoriteRecipesArr = useSelector((state) => state.user.favoriteRecipes);
   const END_POINT_FOOD_FILTER_ID = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idReceita}`;
   const END_POINT_DRINK_FILTER_ID = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idReceita}`;
   const END_POINT_FOOD_RANDOM = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
@@ -69,6 +71,10 @@ function FoodOrDrinksDetails() {
   React.useEffect(() => {
     filter();
   }, [recipeInfo]);
+
+  React.useEffect(() => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesArr));
+  }, [favoriteRecipesArr]);
 
   return (
     <div>

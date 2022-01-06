@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {} from 'react';
 import PropTypes from 'prop-types';
 import WhiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import ShareIcon from '../../images/shareIcon.svg';
@@ -12,12 +12,14 @@ export default function ProgressHeader({ recipeProgress, currentPathName }) {
         {currentPathName.includes('comidas')
           ? (
             <img
+              width="250px"
               data-testid="recipe-photo"
               src={ recipeProgress.strMealThumb }
               alt="Food Recipe"
             />)
           : (
             <img
+              width="250px"
               data-testid="recipe-photo"
               src={ recipeProgress.strDrinkThumb }
               alt="Drink Recipe"
@@ -35,7 +37,6 @@ export default function ProgressHeader({ recipeProgress, currentPathName }) {
         <img src={ WhiteHeartIcon } alt="Favoritar" />
         <img src={ ShareIcon } alt="Compartilhar" />
       </div>
-
     </header>
   );
 }

@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { addFavoriteRecipeAC as addFavoriteRecipe,
+  removeFavoriteRecipeAC as removeFavoriteRecipe } from '../../redux/actions/userAC';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../../images/blackHeartIcon.svg';
+// import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import ShareIcon from '../../images/shareIcon.svg';
 
 function FDDetailsHeader({ recipeInfo, currentPathName }) {
   const [isMessageHidden, setIsMessageHidden] = React.useState(true);
-  const [isRecipeFavorite, setIsRecipeFavorite] = React.useState(false);
+  // const [isHeartColored, setIsHeartColored] = React.useState(false);
+  const favoriteRecipesArr = useSelector((state) => state.user.favoriteRecipes);
+  const dispatch = useDispatch();
 
   const onClickShareBtn = ({ target }) => {
     const TEN_SECONDS = 10000;
@@ -15,14 +20,75 @@ function FDDetailsHeader({ recipeInfo, currentPathName }) {
     setTimeout(() => setIsMessageHidden(true), TEN_SECONDS);
   };
 
-  const onClickFavoriteBtn = () => {
-    if (!isRecipeFavorite) {
-      setIsRecipeFavorite(true);
-    }
-    if (isRecipeFavorite) {
-      setIsRecipeFavorite(false);
+  // const changeHeartColor = () => {
+  //   if (currentPathName.includes('comidas')) {
+  //     if (favoriteRecipesArr.some(({ id }) => id === recipeInfo.idMeal)) {
+  //       setIsHeartColored(true);
+  //     } else {
+  //       setIsHeartColored(false);
+  //     }
+  //   }
+  //   if (currentPathName.includes('bebidas')) {
+  //     if (favoriteRecipesArr.some(({ id }) => id === recipeInfo.idDrink)) {
+  //       setIsHeartColored(true);
+  //     } else {
+  //       setIsHeartColored(false);
+  //     }
+  //   }
+  // };
+
+  const onClickFavoriteBtnMeal = () => {
+    const favoriteMealRecipeObj = {
+      id: recipeInfo.idMeal,
+      type: 'comida',
+      area: recipeInfo.strArea,
+      category: recipeInfo.strCategory,
+      alcoholicOrNot: '',
+      name: recipeInfo.strMeal,
+      image: recipeInfo.strMealThumb,
+    };
+
+    const isThisMealFav = favoriteRecipesArr.some(({ id }) => id === recipeInfo.idMeal);
+
+    if (!isThisMealFav) {
+      dispatch(addFavoriteRecipe(favoriteMealRecipeObj));
+    } else {
+      dispatch(removeFavoriteRecipe(recipeInfo.idMeal));
     }
   };
+
+  const onClickFavoriteBtnDrink = () => {
+    const favoriteDrinkRecipeObj = {
+      id: recipeInfo.idDrink,
+      type: 'bebida',
+      area: '',
+      category: recipeInfo.strCategory,
+      alcoholicOrNot: recipeInfo.strAlcoholic,
+      name: recipeInfo.strDrink,
+      image: recipeInfo.strDrinkThumb,
+    };
+
+    const isThisDrinkFav = favoriteRecipesArr.some(({ id }) => id === recipeInfo.idDrink);
+
+    if (!isThisDrinkFav) {
+      dispatch(addFavoriteRecipe(favoriteDrinkRecipeObj));
+    } else {
+      dispatch(removeFavoriteRecipe(recipeInfo.idDrink));
+    }
+  };
+
+  const onClickFavoriteBtn = () => {
+    if (currentPathName.includes('comidas')) {
+      onClickFavoriteBtnMeal();
+    }
+    if (currentPathName.includes('bebidas')) {
+      onClickFavoriteBtnDrink();
+    }
+  };
+
+  // React.useEffect(() => {
+  //   changeHeartColor();
+  // }, [favoriteRecipesArr]);
 
   return (
     <header>
@@ -60,7 +126,8 @@ function FDDetailsHeader({ recipeInfo, currentPathName }) {
           >
             <img
               data-testid="favorite-btn"
-              src={ isRecipeFavorite ? blackHeartIcon : whiteHeartIcon }
+              // src={ !isHeartColored ? whiteHeartIcon : blackHeartIcon }
+              src={ whiteHeartIcon }
               alt="Ícone de Favoritar"
             />
           </div>
