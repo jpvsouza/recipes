@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { addFavoriteRecipeAC as addFavoriteRecipe } from '../../redux/actions/userAC';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../../images/blackHeartIcon.svg';
+// import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import ShareIcon from '../../images/shareIcon.svg';
 
 function FDDetailsHeader({ recipeInfo, currentPathName }) {
   const [isMessageHidden, setIsMessageHidden] = React.useState(true);
-  const [isRecipeFavorite, setIsRecipeFavorite] = React.useState(false);
+  const favoriteRecipesArr = useSelector((state) => state.user.favoriteRecipes);
+  const dispatch = useDispatch();
 
   const onClickShareBtn = ({ target }) => {
     const TEN_SECONDS = 10000;
@@ -16,11 +19,18 @@ function FDDetailsHeader({ recipeInfo, currentPathName }) {
   };
 
   const onClickFavoriteBtn = () => {
-    if (!isRecipeFavorite) {
-      setIsRecipeFavorite(true);
-    }
-    if (isRecipeFavorite) {
-      setIsRecipeFavorite(false);
+    if (currentPathName.includes('comidas')) {
+      const favoriteMealRecipeObj = {
+        id: recipeInfo.idMeal,
+        type: 'Meal',
+        area: recipeInfo.strArea,
+        category: recipeInfo.strCategory,
+        name: recipeInfo.strMeal,
+        image: recipeInfo.strMealThumb,
+      };
+
+      dispatch(addFavoriteRecipe(favoriteMealRecipeObj));
+      console.log(favoriteRecipesArr);
     }
   };
 
@@ -60,7 +70,7 @@ function FDDetailsHeader({ recipeInfo, currentPathName }) {
           >
             <img
               data-testid="favorite-btn"
-              src={ isRecipeFavorite ? blackHeartIcon : whiteHeartIcon }
+              src={ whiteHeartIcon }
               alt="Ícone de Favoritar"
             />
           </div>

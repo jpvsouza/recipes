@@ -25,6 +25,11 @@ function LoginForm() {
       localStorage.setItem('mealsToken', 1);
       localStorage.setItem('cocktailsToken', 1);
       localStorage.setItem('user', JSON.stringify(userMailLS));
+
+      const favoriteRecipesLS = localStorage.getItem('favoriteRecipes');
+      if (favoriteRecipesLS === null) {
+        localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+      }
       history.push('/comidas');
     }
   };
