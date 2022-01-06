@@ -9,14 +9,7 @@ const INITIAL_STATE = {
   userPassword: '',
   favoriteRecipes: [],
   doneRecipes: [],
-  inProgressRecipes: [
-    cocktails: {
-      idDrink: [],
-  },
-    meals: {
-      idFood: [],
-  }
-  ],
+  inProgressRecipes: [],
 };
 
 function user(state = INITIAL_STATE, action) {
