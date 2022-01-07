@@ -1,95 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
-import { addFavoriteRecipeAC as addFavoriteRecipe,
-  removeFavoriteRecipeAC as removeFavoriteRecipe } from '../../redux/actions/userAC';
-import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
-// import blackHeartIcon from '../../images/blackHeartIcon.svg';
-import ShareIcon from '../../images/shareIcon.svg';
+import FavoriteBtn from './Header/FavoriteBtn';
+import ShareBtn from './Header/ShareBtn';
 
 function FDDetailsHeader({ recipeInfo, currentPathName }) {
-  const [isMessageHidden, setIsMessageHidden] = React.useState(true);
-  // const [isHeartColored, setIsHeartColored] = React.useState(false);
-  const favoriteRecipesArr = useSelector((state) => state.user.favoriteRecipes);
-  const dispatch = useDispatch();
-
-  const onClickShareBtn = ({ target }) => {
-    const TEN_SECONDS = 10000;
-    navigator.clipboard.writeText(`http://localhost:3000${target.id}`); // REF: https://stackoverflow.com/questions/39501289/in-reactjs-how-to-copy-text-to-clipboard
-    setIsMessageHidden(false);
-    setTimeout(() => setIsMessageHidden(true), TEN_SECONDS);
-  };
-
-  // const changeHeartColor = () => {
-  //   if (currentPathName.includes('comidas')) {
-  //     if (favoriteRecipesArr.some(({ id }) => id === recipeInfo.idMeal)) {
-  //       setIsHeartColored(true);
-  //     } else {
-  //       setIsHeartColored(false);
-  //     }
-  //   }
-  //   if (currentPathName.includes('bebidas')) {
-  //     if (favoriteRecipesArr.some(({ id }) => id === recipeInfo.idDrink)) {
-  //       setIsHeartColored(true);
-  //     } else {
-  //       setIsHeartColored(false);
-  //     }
-  //   }
-  // };
-
-  const onClickFavoriteBtnMeal = () => {
-    const favoriteMealRecipeObj = {
-      id: recipeInfo.idMeal,
-      type: 'comida',
-      area: recipeInfo.strArea,
-      category: recipeInfo.strCategory,
-      alcoholicOrNot: '',
-      name: recipeInfo.strMeal,
-      image: recipeInfo.strMealThumb,
-    };
-
-    const isThisMealFav = favoriteRecipesArr.some(({ id }) => id === recipeInfo.idMeal);
-
-    if (!isThisMealFav) {
-      dispatch(addFavoriteRecipe(favoriteMealRecipeObj));
-    } else {
-      dispatch(removeFavoriteRecipe(recipeInfo.idMeal));
-    }
-  };
-
-  const onClickFavoriteBtnDrink = () => {
-    const favoriteDrinkRecipeObj = {
-      id: recipeInfo.idDrink,
-      type: 'bebida',
-      area: '',
-      category: recipeInfo.strCategory,
-      alcoholicOrNot: recipeInfo.strAlcoholic,
-      name: recipeInfo.strDrink,
-      image: recipeInfo.strDrinkThumb,
-    };
-
-    const isThisDrinkFav = favoriteRecipesArr.some(({ id }) => id === recipeInfo.idDrink);
-
-    if (!isThisDrinkFav) {
-      dispatch(addFavoriteRecipe(favoriteDrinkRecipeObj));
-    } else {
-      dispatch(removeFavoriteRecipe(recipeInfo.idDrink));
-    }
-  };
-
-  const onClickFavoriteBtn = () => {
-    if (currentPathName.includes('comidas')) {
-      onClickFavoriteBtnMeal();
-    }
-    if (currentPathName.includes('bebidas')) {
-      onClickFavoriteBtnDrink();
-    }
-  };
-
-  // React.useEffect(() => {
-  //   changeHeartColor();
-  // }, [favoriteRecipesArr]);
-
   return (
     <header>
       <div>
@@ -115,40 +29,13 @@ function FDDetailsHeader({ recipeInfo, currentPathName }) {
           ? <h3 data-testid="recipe-category">{ recipeInfo.strCategory }</h3>
           : <h3 data-testid="recipe-category">{ recipeInfo.strAlcoholic }</h3>}
       </div>
-      <div>
-        <div>
-          <div
-            className="favoriteBtnContainer"
-            onClick={ () => onClickFavoriteBtn() }
-            onKeyDown={ () => onClickFavoriteBtn() }
-            role="button"
-            tabIndex={ 0 }
-          >
-            <img
-              data-testid="favorite-btn"
-              // src={ !isHeartColored ? whiteHeartIcon : blackHeartIcon }
-              src={ whiteHeartIcon }
-              alt="Ícone de Favoritar"
-            />
-          </div>
-          <div
-            className="shareBtnContainer"
-            id={ currentPathName }
-            onClick={ (ev) => onClickShareBtn(ev) }
-            onKeyDown={ (ev) => onClickShareBtn(ev) }
-            role="button"
-            tabIndex={ 0 }
-          >
-            <img
-              id={ currentPathName }
-              data-testid="share-btn"
-              src={ ShareIcon }
-              alt="Compartilhar"
-            />
-            <h4 hidden={ isMessageHidden }>Link copiado!</h4>
-          </div>
-        </div>
-      </div>
+      <FavoriteBtn
+        recipeInfo={ recipeInfo }
+        currentPathName={ currentPathName }
+      />
+      <ShareBtn
+        currentPathName={ currentPathName }
+      />
     </header>
   );
 }
