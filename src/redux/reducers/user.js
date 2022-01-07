@@ -10,9 +10,10 @@ import { SET_LOGIN_INFO,
 const INITIAL_STATE = {
   userMail: '',
   userPassword: '',
-  favoriteRecipes: [],
-  inProgressRecipes: { cocktails: {}, meals: {} },
-  doneRecipes: [],
+  favoriteRecipes: JSON.parse(localStorage.getItem('favoriteRecipes')) || [],
+  inProgressRecipes: JSON.parse(localStorage.getItem('inProgressRecipes'))
+    || { cocktails: {}, meals: {} },
+  doneRecipes: JSON.parse(localStorage.getItem('doneRecipes')) || [],
 };
 
 function user(state = INITIAL_STATE, action) {
