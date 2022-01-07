@@ -1,16 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import RecipeMadeShareBtn from './RecipeMadeShareBtn';
 
-function DrinkMadeCard() {
-  const doneDrinksArray = useSelector((state) => state.user.doneRecipes);
+function DrinkMadeCard({ doneRecipesArray }) {
   const location = useLocation();
   const currentPathName = location.pathname;
 
   return (
     <div>
-      {doneDrinksArray.map((rec, index) => (
+      {doneRecipesArray.map((rec, index) => (
         rec.type === 'bebida'
         && (
           <div key={ index }>
@@ -42,5 +41,9 @@ function DrinkMadeCard() {
     </div>
   );
 }
+
+DrinkMadeCard.propTypes = {
+  doneRecipesArray: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default DrinkMadeCard;

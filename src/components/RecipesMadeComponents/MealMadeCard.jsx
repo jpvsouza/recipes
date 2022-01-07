@@ -1,16 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import RecipeMadeShareBtn from './RecipeMadeShareBtn';
 
-function MealMadeCard() {
-  const doneRecipeArr = useSelector((state) => state.user.doneRecipes);
+function MealMadeCard({ doneRecipesArray }) {
   const location = useLocation();
   const currentPathName = location.pathname;
 
   return (
     <div>
-      {doneRecipeArr.map((rec, index) => (
+      {doneRecipesArray.map((rec, index) => (
         rec.type === 'comida'
         && (
           <div key={ rec.id }>
@@ -54,5 +53,9 @@ function MealMadeCard() {
     </div>
   );
 }
+
+MealMadeCard.propTypes = {
+  doneRecipesArray: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default MealMadeCard;
