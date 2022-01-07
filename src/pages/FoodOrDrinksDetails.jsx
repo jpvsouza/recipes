@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-// import { addFavoriteRecipeAC as addFavoriteRecipe,
-//   removeFavoriteRecipeAC as removeFavoriteRecipe } from '../redux/actions/userAC';
 import FDDetailsHeader
   from '../components/FoodOrDrinksDetailsComponents/Header/FDDetailsHeader';
 import FDDetailsIngredients
@@ -40,7 +38,7 @@ function FoodOrDrinksDetails() {
   const inProgressRecipesObj = useSelector((state) => state.user.inProgressRecipes);
   const doneRecipeArr = useSelector((state) => state.user.doneRecipes);
 
-  // ==========================COLOR=====================================
+  // ==========================HEART-COLOR=====================================
   const [isColoredMeal, setIsColoredMeal] = useState(false);
   const [isColoredDrink, setIsColoredDrink] = useState(false);
 
@@ -64,9 +62,9 @@ function FoodOrDrinksDetails() {
   React.useEffect(() => {
     changeColor();
   }, [idReceita]);
-
   // =======================================================================
 
+  // ==========================FETCH=====================================
   React.useEffect(() => {
     if (currentPathName.includes('comidas')) {
       fetch(END_POINT_FOOD_FILTER_ID)
@@ -92,7 +90,9 @@ function FoodOrDrinksDetails() {
         .then((data) => setRecommendedFD(data.meals));
     }
   }, [idReceita]);
+  // =======================================================================
 
+  // ==========================INGREDIENTS-LIST=====================================
   const filter = () => {
     const keysIngre = Object.keys(recipeInfo)
       .filter((item) => item.includes('strIngredient'));
@@ -109,48 +109,68 @@ function FoodOrDrinksDetails() {
   React.useEffect(() => {
     filter();
   }, [recipeInfo]);
+  // =======================================================================
 
+  // ==========================FAVORITE-RECIPES-LS=====================================
   React.useEffect(() => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesArr));
   }, [favoriteRecipesArr]);
+  // =======================================================================
+
+  // ==========================RENDER OR NOT START/CONTINUE-BTN=====================================
+  const verifyMealStatus = () => {
+    const isMealRecipeDone = doneRecipeArr.some(({ id }) => id === idReceita);
+    const isMealRecipeInProgress = inProgressRecipesObj.meals[idReceita];
+
+    if (isMealRecipeDone) {
+      setMustRenderStartBtn(false);
+    }
+    if (!isMealRecipeDone) {
+      setMustRenderStartBtn(true);
+      if (isMealRecipeInProgress) {
+        setStartBtnStatus(continueRecipe);
+      } else {
+        setStartBtnStatus(startRecipe);
+      }
+    }
+  };
+
+  const verifyDrinkStatus = () => {
+    const isMealRecipeDone = doneRecipeArr.some(({ id }) => id === idReceita);
+    const isDrinkRecipeInProgress = inProgressRecipesObj.cocktails[idReceita];
+
+    if (isMealRecipeDone) {
+      setMustRenderStartBtn(false);
+    }
+    if (!isMealRecipeDone) {
+      setMustRenderStartBtn(true);
+      if (isDrinkRecipeInProgress) {
+        setStartBtnStatus(continueRecipe);
+      } else {
+        setStartBtnStatus(startRecipe);
+      }
+    }
+  };
 
   React.useEffect(() => {
-    const isMealRecipeDone = doneRecipeArr.some(({ id }) => id === idReceita);
-
     if (currentPathName.includes('comidas')) {
-      const isMealRecipeInProgress = inProgressRecipesObj.meals[idReceita];
-      if (isMealRecipeDone) {
-        setMustRenderStartBtn(false);
-      }
-      if (!isMealRecipeDone) {
-        setMustRenderStartBtn(true);
-        if (isMealRecipeInProgress) {
-          setStartBtnStatus(continueRecipe);
-        } else {
-          setStartBtnStatus(startRecipe);
-        }
-      }
+      verifyMealStatus();
+    }
+    if (currentPathName.includes('bebidas')) {
+      verifyDrinkStatus();
     }
   }, [idReceita]);
 
   React.useEffect(() => {
-    const isMealRecipeDone = doneRecipeArr.some(({ id }) => id === idReceita);
-
     if (currentPathName.includes('bebidas')) {
-      const isDrinkRecipeInProgress = inProgressRecipesObj.cocktails[idReceita];
-      if (isMealRecipeDone) {
-        setMustRenderStartBtn(false);
-      }
-      if (!isMealRecipeDone) {
-        setMustRenderStartBtn(true);
-        if (isDrinkRecipeInProgress) {
-          setStartBtnStatus(continueRecipe);
-        } else {
-          setStartBtnStatus(startRecipe);
-        }
-      }
+      verifyDrinkStatus();
     }
-  }, [idReceita]);
+    if (currentPathName.includes('comidas')) {
+      verifyMealStatus();
+    }
+  }, []);
+
+  // =======================================================================
 
   return (
     <div>

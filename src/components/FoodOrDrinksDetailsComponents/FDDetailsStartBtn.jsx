@@ -11,22 +11,24 @@ function FDDetailsStartBtn({ setStartBtnStatus, startBtnStatus,
   const startRecipe = 'Iniciar Receita';
   const continueRecipe = 'Continuar Receita';
 
+  // ==========================IN-PROGRESS-RECIPES-REDUX // START/CONTINUE-BTN=============
   const startRecipeClick = () => {
     if (currentPathName.includes('comidas')) {
-      dispatch(startMealRecipeAC(idReceita, ingredientsArr));
       if (startBtnStatus === startRecipe) {
+        dispatch(startMealRecipeAC(idReceita, ingredientsArr));
         setStartBtnStatus(continueRecipe);
       }
       history.push(`/comidas/${idReceita}/in-progress`);
     }
     if (currentPathName.includes('bebidas')) {
-      dispatch(startDrinkRecipeAC(idReceita, ingredientsArr));
       if (startBtnStatus === startRecipe) {
+        dispatch(startDrinkRecipeAC(idReceita, ingredientsArr));
         setStartBtnStatus(continueRecipe);
       }
       history.push(`/bebidas/${idReceita}/in-progress`);
     }
   };
+  // =======================================================================
 
   return (
     <button
