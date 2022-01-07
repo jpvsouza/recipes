@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { addFavoriteRecipeAC as addFavoriteRecipe,
@@ -6,32 +7,11 @@ import { addFavoriteRecipeAC as addFavoriteRecipe,
 import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../../images/blackHeartIcon.svg';
 
-export default function FavoriteBtn({ recipeInfo, currentPathName }) {
-  // STATE========
-  const [isHeartColoredMeal, setIsHeartColoredMeal] = useState(false); // passar para o estado global
-  const [isHeartColoredDrink, setIsHeartColoredDrink] = useState(false); // passar para o estado glogal
-
+export default function FavoriteBtn({ isColoredDrink, isColoredMeal,
+  recipeInfo, currentPathName }) {
   // REDUX========
   const favoriteRecipesArr = useSelector((state) => state.user.favoriteRecipes);
   const dispatch = useDispatch();
-
-  // ========COLOR MEAL
-  const changeColor = () => {
-    if (currentPathName.includes('comidas')) {
-      if (favoriteRecipesArr.some(({ id }) => id === recipeInfo.idMeal)) {
-        setIsHeartColoredMeal(true);
-      } else setIsHeartColoredMeal(false);
-    }
-    if (currentPathName.includes('bebidas')) {
-      if (favoriteRecipesArr.some(({ id }) => id === recipeInfo.idDrink)) {
-        setIsHeartColoredDrink(true);
-      } else setIsHeartColoredDrink(false);
-    }
-  };
-
-  React.useEffect(() => {
-    changeColor();
-  }, [favoriteRecipesArr]);
 
   // FUNÇÕES FAVORITE
   const saveFavoriteBtnMeal = () => {
@@ -97,13 +77,13 @@ export default function FavoriteBtn({ recipeInfo, currentPathName }) {
           ? (
             <img
               data-testid="favorite-btn"
-              src={ isHeartColoredMeal ? blackHeartIcon : whiteHeartIcon }
+              src={ isColoredMeal ? blackHeartIcon : whiteHeartIcon }
               alt="Ícone de Favoritar"
             />)
           : (
             <img
               data-testid="favorite-btn"
-              src={ isHeartColoredDrink ? blackHeartIcon : whiteHeartIcon }
+              src={ isColoredDrink ? blackHeartIcon : whiteHeartIcon }
               alt="Ícone de Favoritar"
             />)}
       </div>
@@ -112,6 +92,8 @@ export default function FavoriteBtn({ recipeInfo, currentPathName }) {
 }
 
 FavoriteBtn.propTypes = {
+  isColoredDrink: PropTypes.bool.isRequired,
+  isColoredMeal: PropTypes.bool.isRequired,
   currentPathName: PropTypes.string.isRequired,
   recipeInfo: PropTypes.objectOf(PropTypes.string).isRequired,
 };

@@ -20,15 +20,25 @@ function LoginForm() {
     const isPasswordValid = (userPassword.length >= minNumOfCaracs); // Atribui 'True' se a senha possuir 6 caracteres ou mais. Atribui 'False', caso não possua;
     const userMailLS = { email: userMail };
 
+    const favoriteRecipesLS = localStorage.getItem('favoriteRecipes');
+    const doneRecipesLS = localStorage.getItem('doneRecipes');
+    const inProgressRecipesLS = localStorage.getItem('inProgressRecipes');
+
     if (isMailValid && isPasswordValid) {
       dispatch(setLoginInfoAC(userMail, userPassword)); // O e-mail e a senha do usuário será enviado para o estado global da aplicação (Store).
       localStorage.setItem('mealsToken', 1);
       localStorage.setItem('cocktailsToken', 1);
       localStorage.setItem('user', JSON.stringify(userMailLS));
 
-      const favoriteRecipesLS = localStorage.getItem('favoriteRecipes');
       if (favoriteRecipesLS === null) {
         localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+      }
+      if (doneRecipesLS === null) {
+        localStorage.setItem('doneRecipes', JSON.stringify([]));
+      }
+      if (inProgressRecipesLS === null) {
+        localStorage.setItem('inProgressRecipes', JSON
+          .stringify({ cocktails: {}, meals: {} }));
       }
       history.push('/comidas');
     }

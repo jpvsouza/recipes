@@ -1,7 +1,10 @@
 export const SET_LOGIN_INFO = 'SET_LOGIN_INFO';
 export const ADD_FAVORITE_RECIPE = 'ADD_FAVORITE_RECIPE';
 export const REMOVE_FAVORITE_RECIPE = 'REMOVE_FAVORITE_RECIPE';
-export const START_RECIPE = 'START_RECIPE';
+export const START_MEAL_RECIPE = 'START_MEAL_RECIPE';
+export const START_DRINK_RECIPE = 'START_DRINK_RECIPE';
+export const CONCLUDE_MEAL_RECIPE = 'CONCLUDE_MEAL_RECIPE';
+export const CONCLUDE_DRINK_RECIPE = 'CONCLUDE_DRINK_RECIPE';
 
 const setLoginInfoAC = (userMail, userPassword) => ({
   type: SET_LOGIN_INFO,
@@ -19,8 +22,27 @@ export const removeFavoriteRecipeAC = (recipeId) => ({
   recipeId,
 });
 
-export const startRecipe = (recipeId) => ({
-  type: START_RECIPE,
+export const startMealRecipeAC = (recipeId, ingArr) => ({
+  type: START_MEAL_RECIPE,
+  recipeId,
+  ingArr,
+});
+
+export const startDrinkRecipeAC = (recipeId, ingArr) => ({
+  type: START_DRINK_RECIPE,
+  recipeId,
+  ingArr,
+});
+
+export const concludeMealRecipeAC = (concludedMealRecipeObj, recipeId) => ({
+  type: CONCLUDE_MEAL_RECIPE,
+  concludedMealRecipeObj,
+  recipeId,
+});
+
+export const concludeDrinkRecipeAC = (concludedDrinkRecipeObj, recipeId) => ({
+  type: CONCLUDE_DRINK_RECIPE,
+  concludedDrinkRecipeObj,
   recipeId,
 });
 

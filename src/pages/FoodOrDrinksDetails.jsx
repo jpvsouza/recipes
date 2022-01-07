@@ -1,9 +1,10 @@
-import React from 'react';
-import { useLocation, useParams, useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { startRecipe } from '../redux/actions/userAC';
+import React, { useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+// import { addFavoriteRecipeAC as addFavoriteRecipe,
+//   removeFavoriteRecipeAC as removeFavoriteRecipe } from '../redux/actions/userAC';
 import FDDetailsHeader
-  from '../components/FoodOrDrinksDetailsComponents/FDDetailsHeader';
+  from '../components/FoodOrDrinksDetailsComponents/Header/FDDetailsHeader';
 import FDDetailsIngredients
   from '../components/FoodOrDrinksDetailsComponents/FDDetailsIngredients';
 import FDDetailsInstructions
@@ -13,49 +14,58 @@ import FDDetailsRecommended
 import FDDetailsVideo
   from '../components/FoodOrDrinksDetailsComponents/FDDetailsVideo';
 import '../styles/FoodOrDrinksDetails.css';
+import FDDetailsStartBtn
+  from '../components/FoodOrDrinksDetailsComponents/FDDetailsStartBtn';
 
 function FoodOrDrinksDetails() {
   const { idReceita } = useParams();
   const location = useLocation();
-  const history = useHistory();
-  const dispatch = useDispatch();
   const currentPathName = location.pathname;
-  const favoriteRecipesArr = useSelector((state) => state.user.favoriteRecipes);
-  const inProgressRecipes = useSelector((state) => state.user.inProgressRecipes);
+  const startRecipe = 'Iniciar Receita';
+  const continueRecipe = 'Continuar Receita';
+
   const END_POINT_FOOD_FILTER_ID = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idReceita}`;
   const END_POINT_DRINK_FILTER_ID = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idReceita}`;
   const END_POINT_FOOD_RANDOM = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
   const END_POINT_DRINK_RANDOM = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+
   const [recipeInfo, setRecipeInfo] = React.useState({});
   const [ingredientsArr, setIngredientsArr] = React.useState([]);
   const [measureArr, setMeasureArr] = React.useState([]);
   const [recommendedFD, setRecommendedFD] = React.useState([]);
-  const filterInProgress = inProgressRecipes.includes(Number(idReceita));
+  const [startBtnStatus, setStartBtnStatus] = React.useState(startRecipe);
+  const [mustRenderStartBtn, setMustRenderStartBtn] = React.useState(true);
 
-  const filter = () => {
-    const keysIngre = Object.keys(recipeInfo)
-      .filter((item) => item.includes('strIngredient'));
-    const keysMeasu = Object.keys(recipeInfo)
-      .filter((item) => item.includes('strMeasure'));
+  const favoriteRecipesArr = useSelector((state) => state.user.favoriteRecipes);
+  const inProgressRecipesObj = useSelector((state) => state.user.inProgressRecipes);
+  const doneRecipeArr = useSelector((state) => state.user.doneRecipes);
 
-    const ingredients = keysIngre.map((item) => recipeInfo[item])
-      .filter((ing) => ing !== '' && ing !== null);
-    const measure = keysMeasu.map((item) => recipeInfo[item]);
+  // ==========================COLOR=====================================
+  const [isColoredMeal, setIsColoredMeal] = useState(false);
+  const [isColoredDrink, setIsColoredDrink] = useState(false);
 
-    setIngredientsArr(ingredients);
-    setMeasureArr(measure);
-  };
-
-  const buttonPush = () => {
+  const changeColor = () => {
     if (currentPathName.includes('comidas')) {
-      dispatch(startRecipe(Number(idReceita)));
-      history.push(`/comidas/${idReceita}/in-progress`);
+      if (favoriteRecipesArr.some(({ id }) => id === idReceita)) {
+        setIsColoredMeal(true);
+      } else setIsColoredMeal(false);
     }
     if (currentPathName.includes('bebidas')) {
-      dispatch(startRecipe(Number(idReceita)));
-      history.push(`/bebidas/${idReceita}/in-progress`);
+      if (favoriteRecipesArr.some(({ id }) => id === idReceita)) {
+        setIsColoredDrink(true);
+      } else setIsColoredDrink(false);
     }
   };
+
+  React.useEffect(() => {
+    changeColor();
+  }, [favoriteRecipesArr]);
+
+  React.useEffect(() => {
+    changeColor();
+  }, [idReceita]);
+
+  // =======================================================================
 
   React.useEffect(() => {
     if (currentPathName.includes('comidas')) {
@@ -71,17 +81,30 @@ function FoodOrDrinksDetails() {
   }, [idReceita]);
 
   React.useEffect(() => {
-    if (currentPathName.includes('bebidas')) {
-      fetch(END_POINT_FOOD_RANDOM)
-        .then((response) => response.json())
-        .then((data) => setRecommendedFD(data.meals));
-    }
     if (currentPathName.includes('comidas')) {
       fetch(END_POINT_DRINK_RANDOM)
         .then((response) => response.json())
         .then((data) => setRecommendedFD(data.drinks));
     }
+    if (currentPathName.includes('bebidas')) {
+      fetch(END_POINT_FOOD_RANDOM)
+        .then((response) => response.json())
+        .then((data) => setRecommendedFD(data.meals));
+    }
   }, [idReceita]);
+
+  const filter = () => {
+    const keysIngre = Object.keys(recipeInfo)
+      .filter((item) => item.includes('strIngredient'));
+    const keysMeasu = Object.keys(recipeInfo)
+      .filter((item) => item.includes('strMeasure'));
+    const ingredients = keysIngre.map((item) => recipeInfo[item])
+      .filter((ing) => ing !== '' && ing !== null);
+    const measure = keysMeasu.map((item) => recipeInfo[item]);
+
+    setIngredientsArr(ingredients);
+    setMeasureArr(measure);
+  };
 
   React.useEffect(() => {
     filter();
@@ -91,11 +114,51 @@ function FoodOrDrinksDetails() {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesArr));
   }, [favoriteRecipesArr]);
 
+  React.useEffect(() => {
+    const isMealRecipeDone = doneRecipeArr.some(({ id }) => id === idReceita);
+
+    if (currentPathName.includes('comidas')) {
+      const isMealRecipeInProgress = inProgressRecipesObj.meals[idReceita];
+      if (isMealRecipeDone) {
+        setMustRenderStartBtn(false);
+      }
+      if (!isMealRecipeDone) {
+        setMustRenderStartBtn(true);
+        if (isMealRecipeInProgress) {
+          setStartBtnStatus(continueRecipe);
+        } else {
+          setStartBtnStatus(startRecipe);
+        }
+      }
+    }
+  }, [idReceita]);
+
+  React.useEffect(() => {
+    const isMealRecipeDone = doneRecipeArr.some(({ id }) => id === idReceita);
+
+    if (currentPathName.includes('bebidas')) {
+      const isDrinkRecipeInProgress = inProgressRecipesObj.cocktails[idReceita];
+      if (isMealRecipeDone) {
+        setMustRenderStartBtn(false);
+      }
+      if (!isMealRecipeDone) {
+        setMustRenderStartBtn(true);
+        if (isDrinkRecipeInProgress) {
+          setStartBtnStatus(continueRecipe);
+        } else {
+          setStartBtnStatus(startRecipe);
+        }
+      }
+    }
+  }, [idReceita]);
+
   return (
     <div>
       <FDDetailsHeader
         recipeInfo={ recipeInfo }
         currentPathName={ currentPathName }
+        isColoredMeal={ isColoredMeal }
+        isColoredDrink={ isColoredDrink }
       />
       <FDDetailsIngredients
         ingredientsArr={ ingredientsArr }
@@ -112,35 +175,14 @@ function FoodOrDrinksDetails() {
         recommendedFD={ recommendedFD }
         currentPathName={ currentPathName }
       />
-      {!filterInProgress ? (
-        <button
-          onClick={ () => buttonPush() }
-          className="startRecipeBtn"
-          data-testid="start-recipe-btn"
-          type="button"
-        >
-          Iniciar Receita
-        </button>
-      ) : null}
-      {/* {currentPathName.includes('comidas')
-        ? (
-          <button
-            onClick={ () => buttonPush() }
-            className="startRecipeBtn"
-            data-testid="start-recipe-btn"
-            type="button"
-          >
-            Iniciar Receita
-          </button>)
-        : (
-          <button
-            onClick={ () => history.push(`/bebidas/${idReceita}/in-progress`) }
-            className="startRecipeBtn"
-            data-testid="start-recipe-btn"
-            type="button"
-          >
-            Iniciar Receita
-          </button>)} */}
+      {mustRenderStartBtn
+        && <FDDetailsStartBtn
+          startBtnStatus={ startBtnStatus }
+          setStartBtnStatus={ setStartBtnStatus }
+          currentPathName={ currentPathName }
+          idReceita={ idReceita }
+          ingredientsArr={ ingredientsArr }
+        />}
     </div>
   );
 }
