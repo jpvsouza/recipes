@@ -79,6 +79,12 @@ export default function RecipesInProgress() {
   }, [recipeInfo]);
   // =======================================================================
 
+  // ==========================FAVORITE-RECIPES-LS=====================================
+  React.useEffect(() => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesArr));
+  }, [favoriteRecipesArr]);
+  // ===============================================================================
+
   // ==========================IN-PROGRESS-RECIPES-LS=====================================
   React.useEffect(() => {
     localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipesObj));
