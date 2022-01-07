@@ -7,7 +7,10 @@ export default function ShareBtn({ currentPathName }) {
 
   const onClickShareBtn = ({ target }) => {
     const TEN_SECONDS = 10000;
-    navigator.clipboard.writeText(`http://localhost:3000${target.id}`); // REF: https://stackoverflow.com/questions/39501289/in-reactjs-how-to-copy-text-to-clipboard
+    const infoArr = (target.id).split('/');
+    const pathName = `http://localhost:3000/${infoArr[1]}/${infoArr[2]}`;
+
+    navigator.clipboard.writeText(pathName); // REF: https://stackoverflow.com/questions/39501289/in-reactjs-how-to-copy-text-to-clipboard
     setIsMessageHidden(false);
     setTimeout(() => setIsMessageHidden(true), TEN_SECONDS);
   };

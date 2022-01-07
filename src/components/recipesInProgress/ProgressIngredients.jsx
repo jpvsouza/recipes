@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // import { useSelector } from 'react-redux';
-import '../../styles/RecipesInProgress.css';
 
 export default function ProgressIngredients({ ingredientsArr, measureArr }) {
   // const inProgressRecipesObj = useSelector((state) => state.user.inProgressRecipes);
