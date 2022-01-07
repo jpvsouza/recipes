@@ -1,15 +1,18 @@
 import { SET_LOGIN_INFO,
   ADD_FAVORITE_RECIPE,
   REMOVE_FAVORITE_RECIPE,
-  START_RECIPE,
+  START_MEAL_RECIPE,
+  START_DRINK_RECIPE,
+  CONCLUDE_MEAL_RECIPE,
+  CONCLUDE_DRINK_RECIPE,
 } from '../actions/userAC';
 
 const INITIAL_STATE = {
   userMail: '',
   userPassword: '',
   favoriteRecipes: [],
+  inProgressRecipes: { cocktails: {}, meals: {} },
   doneRecipes: [],
-  inProgressRecipes: [],
 };
 
 function user(state = INITIAL_STATE, action) {
@@ -33,10 +36,55 @@ function user(state = INITIAL_STATE, action) {
       favoriteRecipes: [...state.favoriteRecipes
         .filter(({ id }) => (id !== action.recipeId))],
     };
-  case START_RECIPE:
+
+  case START_MEAL_RECIPE:
     return {
       ...state,
-      inProgressRecipes: [...state.inProgressRecipes, action.recipeId],
+      inProgressRecipes: {
+        cocktails: { ...state.inProgressRecipes.cocktails },
+        meals: {
+          ...state.inProgressRecipes.meals,
+          [action.recipeId]: action.ingArr,
+        },
+      },
+    };
+
+  case START_DRINK_RECIPE:
+    return {
+      ...state,
+      inProgressRecipes: {
+        cocktails: {
+          ...state.inProgressRecipes.cocktails,
+          [action.recipeId]: action.ingArr,
+        },
+        meals: { ...state.inProgressRecipes.meals },
+      },
+    };
+
+  case CONCLUDE_MEAL_RECIPE:
+    return {
+      ...state,
+      doneRecipes: [...state.doneRecipes, action.concludedMealRecipeObj],
+      inProgressRecipes: {
+        cocktails: { ...state.inProgressRecipes.cocktails },
+        meals: {
+          ...Object.entries(state.inProgressRecipes.meals)
+            .filter((microArr) => microArr[0] !== action.recipeId),
+        },
+      },
+    };
+
+  case CONCLUDE_DRINK_RECIPE:
+    return {
+      ...state,
+      doneRecipes: [...state.doneRecipes, action.concludedDrinkRecipeObj],
+      inProgressRecipes: {
+        cocktails: {
+          ...Object.entries(state.inProgressRecipes.cocktails)
+            .filter((microArr) => microArr[0] !== action.recipeId),
+        },
+        meals: { ...state.inProgressRecipes.meals },
+      },
     };
 
   default:

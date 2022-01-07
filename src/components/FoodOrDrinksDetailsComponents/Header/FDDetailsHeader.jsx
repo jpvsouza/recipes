@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FavoriteBtn from './Header/FavoriteBtn';
-import ShareBtn from './Header/ShareBtn';
+import FavoriteBtn from './FavoriteBtn';
+import ShareBtn from './ShareBtn';
 
-function FDDetailsHeader({ recipeInfo, currentPathName }) {
+function FDDetailsHeader({ isColoredDrink, isColoredMeal, recipeInfo, currentPathName }) {
   return (
     <header>
       <div>
@@ -32,6 +32,8 @@ function FDDetailsHeader({ recipeInfo, currentPathName }) {
       <FavoriteBtn
         recipeInfo={ recipeInfo }
         currentPathName={ currentPathName }
+        isColoredDrink={ isColoredDrink }
+        isColoredMeal={ isColoredMeal }
       />
       <ShareBtn
         currentPathName={ currentPathName }
@@ -41,6 +43,8 @@ function FDDetailsHeader({ recipeInfo, currentPathName }) {
 }
 
 FDDetailsHeader.propTypes = {
+  isColoredDrink: PropTypes.bool.isRequired,
+  isColoredMeal: PropTypes.bool.isRequired,
   currentPathName: PropTypes.string.isRequired,
   recipeInfo: PropTypes.objectOf(PropTypes.string).isRequired,
 };
