@@ -14,7 +14,7 @@ function Profile() {
   return (
     <div>
       <Header />
-      <h3 data-testid="profile-email">{userMailObjLs.email}</h3>
+      <h3 data-testid="profile-email">{userMailObjLs !== null && userMailObjLs.email}</h3>
       <section id="profilePageBtnsContainer">
         <button
           data-testid="profile-done-btn"
