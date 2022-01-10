@@ -22,9 +22,16 @@ function Foods() {
   }, [mealsArray, history]);
 
   React.useEffect(() => {
+    const lastMealIngExploredLs = localStorage.getItem('lastMealIngExplored');
+
     dispatch(fetchFoodCategories(MEALS_CAT_END_POINT));
     dispatch(fetchMealsThunk('https://www.themealdb.com/api/json/v1/1/search.php?s='));
-  }, [dispatch]);
+
+    if (lastMealIngExploredLs !== null && lastMealIngExploredLs !== '') {
+      dispatch(fetchMealsThunk(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${lastMealIngExploredLs}`));
+      localStorage.setItem('lastMealIngExplored', '');
+    }
+  }, []);
 
   return (
     <div>
