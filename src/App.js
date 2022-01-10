@@ -11,9 +11,10 @@ import ExploreDrinkIngredients from './pages/ExploreDrinkIngredients';
 import ExploreFoodsByArea from './pages/ExploreFoodsByArea';
 import Profile from './pages/Profile';
 import RecipesMade from './pages/RecipesMade';
-import FavoriteRecipes from './pages/FavoriteRecipes';
 import FoodOrDrinksDetails from './pages/FoodOrDrinksDetails';
 import RecipesInProgress from './pages/RecipesInProgress';
+import FavoriteRecipes from './pages/FavoriteRecipes';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           component={ RecipesInProgress }
         />
         <Route exact path="/receitas-favoritas" component={ FavoriteRecipes } />
+        <Route component={ NotFound } />
       </Switch>
     </div>
   );
