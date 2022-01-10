@@ -39,7 +39,9 @@ function Foods() {
       <FoodCategoriesFilter
         setIsCategoryPressed={ setIsCategoryPressed }
       />
-      <FoodCard />
+      <FoodCard
+        mealsArray={ mealsArray }
+      />
       <Footer />
     </div>
   );

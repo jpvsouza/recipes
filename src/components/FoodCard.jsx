@@ -1,9 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
-function FoodCard() {
-  const mealsArray = useSelector((state) => state.foodsAndDrinks.meals);
+function FoodCard({ mealsArray }) {
   const eleven = 11;
   const history = useHistory();
 
@@ -32,5 +31,9 @@ function FoodCard() {
     </div>
   );
 }
+
+FoodCard.propTypes = {
+  mealsArray: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default FoodCard;
