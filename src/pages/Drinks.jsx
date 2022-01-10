@@ -22,9 +22,16 @@ function Drinks() {
   }, [drinksArray, history]);
 
   React.useEffect(() => {
+    const lastDrinkIngExploredLs = localStorage.getItem('lastDrinkIngExplored');
+
     dispatch(fetchDrinksCategories(DRINKS_CAT_END_POINT));
     dispatch(fetchDrinks('https://www.thecocktaildb.com/api/json/v1/1/search.php?s='));
-  }, [dispatch]);
+
+    if (lastDrinkIngExploredLs !== null && lastDrinkIngExploredLs !== '') {
+      dispatch(fetchDrinks(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${lastDrinkIngExploredLs}`));
+      localStorage.setItem('lastDrinkIngExplored', '');
+    }
+  }, []);
 
   return (
     <div>
