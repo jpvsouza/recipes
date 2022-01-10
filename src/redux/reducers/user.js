@@ -5,6 +5,8 @@ import { SET_LOGIN_INFO,
   START_DRINK_RECIPE,
   CONCLUDE_MEAL_RECIPE,
   CONCLUDE_DRINK_RECIPE,
+  CHECK_MEAL_RECIPE,
+  CHECK_DRINK_RECIPE,
 } from '../actions/userAC';
 
 const INITIAL_STATE = {
@@ -13,6 +15,8 @@ const INITIAL_STATE = {
   favoriteRecipes: JSON.parse(localStorage.getItem('favoriteRecipes')) || [],
   inProgressRecipes: JSON.parse(localStorage.getItem('inProgressRecipes'))
     || { cocktails: {}, meals: {} },
+  inProgressRecipesChecked: JSON.parse(localStorage.getItem('inProgressRecipesChecked'))
+  || { cocktails: {}, meals: {} },
   doneRecipes: JSON.parse(localStorage.getItem('doneRecipes')) || [],
 };
 
@@ -85,6 +89,32 @@ function user(state = INITIAL_STATE, action) {
             .filter((microArr) => microArr[0] !== action.recipeId),
         },
         meals: { ...state.inProgressRecipes.meals },
+      },
+    };
+
+  case CHECK_MEAL_RECIPE:
+    return {
+      ...state,
+      inProgressRecipesChecked: {
+        cocktails: { ...state.inProgressRecipesChecked.cocktails },
+        meals: {
+          ...state.inProgressRecipesChecked.meals,
+          checked: { ...state.inProgressRecipesChecked.meals.checked,
+            [action.recipeId]: [action.ing] },
+        },
+      },
+    };
+
+  case CHECK_DRINK_RECIPE:
+    return {
+      ...state,
+      inProgressRecipesChecked: {
+        cocktails: {
+          ...state.inProgressRecipesChecked.cocktails,
+          checked: { ...state.inProgressRecipesChecked.cocktails.checked,
+            [action.recipeId]: [action.ing] },
+        },
+        meals: { ...state.inProgressRecipesChecked.meals },
       },
     };
 

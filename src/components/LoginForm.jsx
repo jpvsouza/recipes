@@ -23,6 +23,7 @@ function LoginForm() {
     const favoriteRecipesLS = localStorage.getItem('favoriteRecipes');
     const doneRecipesLS = localStorage.getItem('doneRecipes');
     const inProgressRecipesLS = localStorage.getItem('inProgressRecipes');
+    const inProgressRecipesCheckedLS = localStorage.getItem('inProgressRecipesChecked');
 
     if (isMailValid && isPasswordValid) {
       dispatch(setLoginInfoAC(userMail, userPassword)); // O e-mail e a senha do usuário será enviado para o estado global da aplicação (Store).
@@ -38,6 +39,10 @@ function LoginForm() {
       }
       if (inProgressRecipesLS === null) {
         localStorage.setItem('inProgressRecipes', JSON
+          .stringify({ cocktails: {}, meals: {} }));
+      }
+      if (inProgressRecipesCheckedLS === null) {
+        localStorage.setItem('inProgressRecipesChecked', JSON
           .stringify({ cocktails: {}, meals: {} }));
       }
       history.push('/comidas');
