@@ -124,6 +124,7 @@ export default function RecipesInProgress() {
         ingredientsArr={ ingredientsArr }
         measureArr={ measureArr }
         idReceita={ idReceita }
+        currentPathName={ currentPathName }
       />
       <ProgressInstructions
         recipeInfo={ recipeInfo }
