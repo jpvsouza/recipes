@@ -15,7 +15,9 @@ import FoodOrDrinksDetails from './pages/FoodOrDrinksDetails';
 import RecipesInProgress from './pages/RecipesInProgress';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import NotFound from './pages/NotFound';
+import './styles/login.css';
 
+// App
 function App() {
   return (
     <div>

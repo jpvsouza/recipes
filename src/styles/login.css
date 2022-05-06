@@ -1,0 +1,21 @@
+form {
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    padding-top: 100px;
+}
+
+body {
+    background-color: aqua;
+    background-image: url('../images/receitas.jpg');
+}
+
+p {
+    text-align: center;
+}
+
+.eachFoodCard, .foodCategoriesFilterContainer, header {
+    text-align: center;
+}

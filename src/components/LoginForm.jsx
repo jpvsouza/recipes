@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom'; // REF: https://felixgerschau.com/usehistory-react-hooks/
 import { useDispatch } from 'react-redux'; // REF: https://medium.com/geekculture/redux-with-reacts-functional-components-272f1008ee69
 import setLoginInfoAC from '../redux/actions/userAC';
+import '../styles/login.css';
 
 function LoginForm() {
   const [userMail, setUserMail] = React.useState('');
@@ -50,6 +51,7 @@ function LoginForm() {
   };
 
   return (
+    <div>
     <form id="loginForm">
       <label htmlFor="userMailInput">
         <input
@@ -83,6 +85,8 @@ function LoginForm() {
         Entrar
       </button>
     </form>
+    <p>Entre com um email válido e com uma senha de, no mínimo 7 caracteres</p>
+    </div>
   );
 }
 

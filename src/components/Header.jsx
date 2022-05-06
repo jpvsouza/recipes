@@ -75,6 +75,7 @@ function Header() {
           <button
             type="button"
             onClick={ renderSearchBar }
+            className='botaoBusca'
           >
             <img
               data-testid="search-top-btn"
