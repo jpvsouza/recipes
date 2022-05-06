@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import '../../styles/foodPage.css';
 
 function FDDetailsRecommended({ recommendedFD, currentPathName }) {
   const five = 5;
@@ -9,7 +10,7 @@ function FDDetailsRecommended({ recommendedFD, currentPathName }) {
 
   return (
     <div className="recommendedCardsContainer">
-      <h1>Recomendações</h1>
+      <h1 className='title'>Recomendações</h1>
       { currentPathName.includes('bebidas')
         ? (
           <div className="meal scroll">
@@ -18,7 +19,7 @@ function FDDetailsRecommended({ recommendedFD, currentPathName }) {
                 <div
                   key={ index }
                   data-testid={ `${index}-recomendation-card` }
-                  className="eachRecommendedCard"
+                  className="eachRecommendedCard eachFoodCard"
                   onClick={ () => history.push(`/comidas/${item.idMeal}`) }
                   onKeyDown={ () => history.push(`/comidas/${item.idMeal}`) }
                   role="button"
@@ -28,6 +29,7 @@ function FDDetailsRecommended({ recommendedFD, currentPathName }) {
                     src={ item.strMealThumb }
                     alt={ item.strMeal }
                     width="150px"
+                    className='cardPicture'
                   />
                   <h2 data-testid={ `${index}-recomendation-title` }>{item.strMeal}</h2>
                   <h4>{item.strCategory}</h4>
@@ -41,7 +43,7 @@ function FDDetailsRecommended({ recommendedFD, currentPathName }) {
                 <div
                   key={ index }
                   data-testid={ `${index}-recomendation-card` }
-                  className="eachRecommendedCard"
+                  className="eachRecommendedCard eachFoodCard"
                   onClick={ () => history.push(`/bebidas/${item.idDrink}`) }
                   onKeyDown={ () => history.push(`/bebidas/${item.idDrink}`) }
                   role="button"

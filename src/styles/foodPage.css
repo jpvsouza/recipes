@@ -17,3 +17,7 @@
 .cardPicture {
     border-radius: 10px;
 }
+
+.title {
+    padding-top: 0;
+}

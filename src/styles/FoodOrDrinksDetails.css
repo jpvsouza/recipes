@@ -16,7 +16,7 @@
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;
-  width: 300px;
+  width:fit-content;
 }
 
 .scroll div {
