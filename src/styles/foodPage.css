@@ -1,13 +1,19 @@
-.foodCardsContainer {
+.foodCardsContainer, .drinkCardsContainer {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
     width: 100%;
+    margin-bottom: 40px;
 }
 
-.eachFoodCard {
+.eachFoodCard, .eachDrinkCard{
     border: 3px solid rgb(109, 23, 23);
     border-radius: 10px;
     box-shadow: 10px 5px 5px black;
     margin: 15px;
     background-color: rgba(242, 243, 199, 0.8);
+    text-align: center;
+}
+
+.cardPicture {
+    border-radius: 10px;
 }

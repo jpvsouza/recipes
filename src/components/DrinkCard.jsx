@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import '../styles/foodPage.css';
 
 function DrinkCard() {
   const drinksArray = useSelector((state) => state.foodsAndDrinks.drinks);
@@ -25,6 +26,7 @@ function DrinkCard() {
               alt={ item.strDrink }
               width="150px"
               data-testid={ `${index}-card-img` }
+              className='cardPicture'
             />
             <h2 data-testid={ `${index}-card-name` }>{item.strDrink}</h2>
           </div>

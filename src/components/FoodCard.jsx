@@ -26,6 +26,7 @@ function FoodCard({ mealsArray }) {
                 alt={ item.strMeal }
                 width="150px"
                 data-testid={ `${index}-card-img` }
+                className='cardPicture'
               />
               <h2 data-testid={ `${index}-card-name` }>{item.strMeal}</h2>
             </div>
